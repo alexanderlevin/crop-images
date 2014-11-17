@@ -8,4 +8,26 @@ $.get('/js/templates/selector.html', function(result) {
       pictures: pictures,
     }
   });
+
+  if (window.location.hash !== '') {
+      ra.set('selectedPath', window.location.hash.slice(1));
+  }
+
+  ra.observe('selectedPath', function(newValue, oldValue) {
+	  console.log(oldValue);
+	  console.log(newValue);
+	  if (oldValue !== undefined && newValue !== oldValue) {
+	      window.location.hash = '#' + newValue;
+	      window.location.reload();
+	  }
+	  setImage(newValue);
+  });
+
+  jQuery(function($) {
+    $('#picture').Jcrop();
+  });
 });
+
+var setImage = function(path) {
+    $('#picture').attr('src', path);
+}
