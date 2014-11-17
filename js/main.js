@@ -1,4 +1,5 @@
 var pictures = [{id: 0, path: '/img/0.jpg'}, {id: 1, path: '/img/1.jpg'}];
+var indexedPictures = _.indexBy(pictures, 'id');
 
 $.get('/js/templates/selector.html', function(result) {
   var ra = new Ractive({
@@ -10,17 +11,18 @@ $.get('/js/templates/selector.html', function(result) {
   });
 
   if (window.location.hash !== '') {
-      ra.set('selectedPath', window.location.hash.slice(1));
+    hashValue = window.location.hash.slice(1);
+    if (indexedPictures[hashValue] !== undefined) {
+      ra.set('selectedId', indexedPictures[hashValue].id);
+    }
   }
 
-  ra.observe('selectedPath', function(newValue, oldValue) {
-	  console.log(oldValue);
-	  console.log(newValue);
-	  if (oldValue !== undefined && newValue !== oldValue) {
-	      window.location.hash = '#' + newValue;
-	      window.location.reload();
-	  }
-	  setImage(newValue);
+  ra.observe('selectedId', function(newValue, oldValue) {
+    if (oldValue !== undefined && newValue !== oldValue) {
+      window.location.hash = '#' + newValue;
+      window.location.reload();
+    }
+    setImage(indexedPictures[newValue].path);
   });
 
   jQuery(function($) {
