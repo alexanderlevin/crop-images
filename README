@@ -1,0 +1,6 @@
+Playing around with Ractive and Jcrop
+
+Demo app for switching around between images and tracking 
+cropping coordinates.  
+
+To use, put two of your own images in /imgs/0.jpg and /imgs/1.jpg
